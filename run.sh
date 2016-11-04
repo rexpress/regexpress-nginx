@@ -23,8 +23,7 @@ jq -r 'map(.|"wget -s http://127.0.0.1/"+.)[]' test > request.sh
 chmod 755 request.sh
 sh request.sh
 
-log=$(cat /var/log/nginx/rewrite.log | while read line; do printf "$line\\\\n"; done)
-log=$(echo $log | sed -e "s/\"/\\\\\"/g")
+log=$(cat /var/log/nginx/rewrite.log | while read line; do printf "$line\\\\n" | sed -e "s/\"/\\\\\"/g"; done)
 
 echo "##START_RESULT##"
 echo "{
