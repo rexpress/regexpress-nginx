@@ -5,8 +5,8 @@ cd /etc/nginx/conf.d
 rm -rf config* test*
 
 # Arguments to file
-echo "$1" > config
-echo "$2" > test
+echo "$1" | base64 -d > config
+echo "$2" | base64 -d > test
 
 # Save config to file without comments
 jq .config config | xargs echo -e > temp_config
