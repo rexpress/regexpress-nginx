@@ -38,16 +38,20 @@ for((i=0; i < ${#result[@]}; i++));
   printf "${result[$i]}" > log
   rewritten=()
   while read -r line; do regex="rewritten data: \"([^\"]*).*args: \"([^\"]*)"; if [[ $line =~ $regex ]]; then rewritten+=("[\"${BASH_REMATCH[1]}\", \"${BASH_REMATCH[2]}\"]"); fi done < log
-  groups="{\"list\":["
-  for((j=0; j < ${#rewritten[@]}; j++));
-   do 
-    groups+="${rewritten[$j]}"
-    if [[ $j -ne ${#rewritten[@]}-1 ]]; 
-     then
-     groups+=","
-    fi
-  done
-  groups+="]}"
+  groups="null"
+  if [[ ${#rewritten[@]} -ne 0 ]];
+    then
+    groups="{\"list\":["
+    for((j=0; j < ${#rewritten[@]}; j++));
+     do 
+      groups+="${rewritten[$j]}"
+      if [[ $j -ne ${#rewritten[@]}-1 ]]; 
+       then
+       groups+=","
+      fi
+    done
+    groups+="]}"
+  fi
   
   groups_list+="$groups"
   if [[ $i -ne ${#result[@]}-1 ]];
